@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Client {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  domain      String?
+  subdomain   String?       @default("promo")
+  logoUrl     String?
+  brandColors String?       // JSON string: { primary, secondary, accent }
+  industry    String?
+  notes       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  pages       LandingPage[]
+}
+
+model LandingPage {
+  id          String        @id @default(cuid())
+  clientId    String
+  client      Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  title       String
+  slug        String
+  prompt      String
+  status      PageStatus    @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  versions    PageVersion[]
+  deployments Deployment[]
+
+  @@unique([clientId, slug])
+}
+
+model PageVersion {
+  id          String      @id @default(cuid())
+  pageId      String
+  page        LandingPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  versionNum  Int
+  htmlContent String
+  prompt      String?
+  isActive    Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+
+  @@unique([pageId, versionNum])
+}
+
+model Deployment {
+  id           String      @id @default(cuid())
+  pageId       String
+  page         LandingPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  versionId    String
+  targetDomain String?
+  notes        String?
+  exportedAt   DateTime    @default(now())
+}
+
+enum PageStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
