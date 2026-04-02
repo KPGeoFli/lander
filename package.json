@@ -7,6 +7,9 @@
     "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start"
   },
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.82.0",
     "@prisma/adapter-better-sqlite3": "^7.6.0",
