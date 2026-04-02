@@ -1,4 +1,4 @@
-export type PageStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
+export type PageStatus = string;
 
 export interface BrandColors {
   primary: string;

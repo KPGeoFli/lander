@@ -57,3 +57,4 @@ CREATE UNIQUE INDEX "LandingPage_clientId_slug_key" ON "LandingPage"("clientId",
 
 -- CreateIndex
 CREATE UNIQUE INDEX "PageVersion_pageId_versionNum_key" ON "PageVersion"("pageId", "versionNum");
+

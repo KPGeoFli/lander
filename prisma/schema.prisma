@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Client {
@@ -28,7 +29,7 @@ model LandingPage {
   title       String
   slug        String
   prompt      String
-  status      PageStatus    @default(DRAFT)
+  status      String        @default("DRAFT")
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   versions    PageVersion[]
@@ -60,8 +61,3 @@ model Deployment {
   exportedAt   DateTime    @default(now())
 }
 
-enum PageStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
